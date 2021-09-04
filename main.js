@@ -9,6 +9,8 @@ const { json } = require("body-parser");
 const { response } = require("express");
 const { path } = require('ghost-cursor')
 
+const requestIp = require('request-ip');
+
 
 //const puppeteer = require('puppeteer-extra')
 //const StealthPlugin = require('puppeteer-extra-plugin-stealth')
@@ -430,7 +432,7 @@ const { Console } = require("console");
 
 const pool = mariadb.createPool({
     host: "localhost",
-    user: "carter",
+    user: "api-user",
     password: "Pointer7*",
     database: "api",
     connectionLimit: 5,
@@ -469,6 +471,7 @@ async function getIP(userIP) {
         if (conn) conn.release();
     }
 };
+
 async function configsPerUser(user) {
     let conn;
     try {
@@ -573,7 +576,6 @@ app.post("/bypass", jsonParser, async function(req, res, next) {
         date_ob = new Date();
         abck = req.body.abck;
         var url = req.body.url;
-        console.log(url);
         key = req.body.key;
         if (!key || !url) {
             return console.log(`[`.magenta + `${date_ob.getHours()}:${date_ob.getMinutes()}:${date_ob.getSeconds()}` + `]`.magenta + `[`.magenta + `FAIL`.brightRed + `]`.magenta + `[`.magenta + `UNAUTHORIZED`.brightRed + `]`.magenta + `[`.magenta + `Key: ${key} | Site: ${url} | IP: ${value}`.white + `]`.magenta);
